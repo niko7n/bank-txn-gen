@@ -1,0 +1,41 @@
+[project]
+name = "bank-txn-gen"
+version = "0.1.0"
+description = "Generate bank statements."
+readme = "README.md"
+authors = [{ name = "Niko Nannemann", email = "papierkorb@niko7n.com" }]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+bank-txn-gen = "bank_txn_gen:main"
+
+[build-system]
+requires = ["uv_build>=0.12.3,<0.13.0"]
+build-backend = "uv_build"
+
+[dependency-groups]
+dev = [
+    "basedpyright>=1.40.2",
+    "pre-commit>=4.7.0",
+    "pytest>=9.1.1",
+    "ruff>=0.17.1",
+]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle
+    "F",   # pyflakes
+    "I",   # import sorting
+    "B",   # bugbear
+    "UP",  # pyupgrade
+    "SIM", # simplifications
+    "C4",  # comprehensions
+]
+
+[tool.ruff.format]
+quote-style = "double"
