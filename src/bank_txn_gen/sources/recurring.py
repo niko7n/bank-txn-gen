@@ -3,8 +3,7 @@ from datetime import date
 
 from ..models import Transaction
 from ..persona import Persona
-from ..scheduler import Source
-from .base import inflow, month_label, outflow
+from .base import Source, inflow, month_label, outflow
 
 
 def make_rent(persona: Persona) -> Source:
@@ -13,7 +12,11 @@ def make_rent(persona: Persona) -> Source:
             return []
         return [
             outflow(
-                day, persona, persona["landlord"], "850.00", f"Miete {month_label(day)}"
+                day,
+                persona,
+                persona["landlord"],
+                "850.00",
+                f"Miete {month_label(day)} {day.year}",
             )
         ]
 
@@ -54,7 +57,7 @@ def make_income_employment(persona: Persona) -> Source:
                 persona["employer"],
                 persona,
                 "3444.15",
-                f"Gehalt {month_label(day)}",
+                f"Gehalt {month_label(day)} {day.year}",
             )
         ]
 

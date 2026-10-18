@@ -1,10 +1,9 @@
 import random
-from collections.abc import Callable, Iterator
+from collections.abc import Iterator
 from datetime import date, timedelta
 
 from .models import Transaction
-
-Source = Callable[[date, random.Random], list[Transaction]]
+from .sources import Source
 
 
 def days_iterator(start: date, end: date) -> Iterator[date]:

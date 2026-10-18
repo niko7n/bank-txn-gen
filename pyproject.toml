@@ -10,7 +10,7 @@ dependencies = [
 ]
 
 [project.scripts]
-bank-txn-gen = "bank_txn_gen:main"
+bank-txn-gen = "bank_txn_gen.main:main"
 
 [build-system]
 requires = ["uv_build>=0.12.3,<0.13.0"]

@@ -1,3 +1,1 @@
-from .main import main
-
-__all__ = ["main"]
+"""Generate realistic fake bank transactions."""

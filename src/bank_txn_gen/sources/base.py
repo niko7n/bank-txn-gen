@@ -1,8 +1,12 @@
+import random
+from collections.abc import Callable
 from datetime import date
 from decimal import Decimal
 
 from ..models import Transaction
 from ..persona import Counterparty, Persona
+
+Source = Callable[[date, random.Random], list[Transaction]]
 
 MONTH_DE = [
     "Januar",
@@ -49,8 +53,8 @@ def outflow(
 
 def inflow(
     day: date,
-    persona: Persona,
     cp: Counterparty,
+    persona: Persona,
     amount: str,
     purpose: str,
     **extra,
