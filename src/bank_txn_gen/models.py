@@ -10,7 +10,7 @@ class Transaction:
     payee: str
     payer: str
     purpose: str
-    type: str
+    type: str  # Umsatztyp
     iban: str
     amount: Decimal  # negative = outflow
     value_date: date | None = None

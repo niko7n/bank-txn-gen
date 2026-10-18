@@ -5,7 +5,9 @@ description = "Generate bank statements."
 readme = "README.md"
 authors = [{ name = "Niko Nannemann", email = "papierkorb@niko7n.com" }]
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "faker>=40.43.0",
+]
 
 [project.scripts]
 bank-txn-gen = "bank_txn_gen:main"
@@ -24,7 +26,7 @@ dev = [
 
 [tool.ruff]
 line-length = 88
-target-version = "py312"
+target-version = "py313"
 
 [tool.ruff.lint]
 select = [

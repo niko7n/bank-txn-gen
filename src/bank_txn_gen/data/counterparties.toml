@@ -1,0 +1,31 @@
+[rewe]
+name = "REWE Markt GmbH"
+
+[edeka]
+name = "EDEKA"
+#category = "groceries"
+
+[lidl]
+name = "Lidl Dienstleistung GmbH & Co. KG"
+
+[dm]
+name = "dm-drogerie markt"
+
+[streaming]
+name = "Netflix International B.V."
+
+[health-insurance]
+name = "Techniker Krankenkasse"
+iban = "DE18200100200030936201"
+purpose = "TODO: Abbrechung von Monat xyz"
+
+[pension-insurance]
+name = "Stuttgarter Lebensversicherung a.G."
+
+[strom]
+name = "Vattenfall Europe Sales GmbH"
+
+# Optional Fields:
+# category = "utilities"
+# iban = "DE02100100100006820101"
+# creditor_ident = "DE98ZZZ09999999999"
