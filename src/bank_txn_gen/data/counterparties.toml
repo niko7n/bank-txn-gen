@@ -17,10 +17,21 @@ name = "Netflix International B.V."
 [health-insurance]
 name = "Techniker Krankenkasse"
 iban = "DE18200100200030936201"
-purpose = "TODO: Abbrechung von Monat xyz"
 
 [pension-insurance]
 name = "Stuttgarter Lebensversicherung a.G."
+
+[rossmann]
+name = "Dirk Rossmann GmbH"
+
+[lieferando]
+name = "Lieferando.de"
+
+[amazon]
+name = "Amazon EU S.a.r.l."
+
+[aral]
+name = "Aral AG"
 
 [strom]
 name = "Vattenfall Europe Sales GmbH"

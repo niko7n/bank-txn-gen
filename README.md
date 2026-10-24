@@ -3,7 +3,7 @@
 Generate realistic fake bank transactions and export them as a bank statement CSV.
 
 **Current State:**
-Active development and missing the random daily outflow.
+Active development and the semi regular transaction flow is not fully done.
 
 ## Installation
 

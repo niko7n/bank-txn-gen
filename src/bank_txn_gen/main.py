@@ -7,7 +7,13 @@ from .export import FORMATS, write_csv
 from .models import Transaction
 from .persona import Persona, make_persona
 from .scheduler import loop_days
-from .sources import Source, make_income_employment, make_insurance, make_rent
+from .sources import (
+    Source,
+    make_income_employment,
+    make_insurance,
+    make_rent,
+    make_semi_regular,
+)
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -50,18 +56,20 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
-def build_sources(persona: Persona) -> list[Source]:
+def build_sources(persona: Persona, seed: int) -> list[Source]:
     return [
         make_rent(persona),
         make_insurance(persona),
         make_income_employment(persona),
+        *make_semi_regular(persona, seed),
     ]
 
 
 def generate(year: int, seed: int) -> list[Transaction]:
     rng = random.Random(seed)
     persona = make_persona(seed)
-    return loop_days(date(year, 1, 1), date(year, 12, 31), build_sources(persona), rng)
+    sources = build_sources(persona, seed)
+    return loop_days(date(year, 1, 1), date(year, 12, 31), sources, rng)
 
 
 def main() -> None:

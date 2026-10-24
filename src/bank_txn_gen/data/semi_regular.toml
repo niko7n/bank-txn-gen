@@ -1,0 +1,111 @@
+# Semi-regular spending: things that happen "a few times a week" on random days.
+#
+# Every [[weekly]] block is one rule. Once per day the generator rolls a dice per
+# rule and books at most one transaction per rule and day. Per ISO week (Mon-Sun):
+#   - never more than `max_per_week` transactions
+#   - at least `min_per_week` transactions (forced on the last possible days)
+#
+# Fields:
+#   name              label for the rule, only used in error messages (required)
+#   min_per_week      guaranteed bookings per week (required, >= 0)
+#   max_per_week      upper limit per week (required, >= min_per_week and <= the
+#                     number of days with a weight > 0)
+#   weekday_weights   7 numbers for Mon..Sun, how likely each day is relative to
+#                     the others. 0 = never on that day (e.g. shops on Sunday)
+#   amount_mean       average amount in EUR (always booked as outflow)
+#   amount_stddev     spread of the amount (normal distribution)
+#   amount_min        lower clamp for the amount
+#   amount_max        optional upper clamp for the amount
+#   purpose           text for "Verwendungszweck"
+#   expected_per_week optional average bookings per week, default is
+#                     (min_per_week + max_per_week) / 2. Use small values like 0.25
+#                     for "about once a month".
+#
+# Counterparty, pick ONE of:
+#   counterparty      key from counterparties.toml (e.g. "rewe")
+#   name_patterns     Faker templates, e.g. "Bäckerei {{last_name}}". Any Faker
+#                     provider works: {{last_name}}, {{first_name}}, {{city_name}},
+#                     {{company}}, ...  Without both, "{{company}}" is used.
+#   pool_size         only with name_patterns: how many different places are
+#                     generated (default 5). 1 = always the same place (your
+#                     regular bakery or hairdresser).
+
+# --- Groceries ---------------------------------------------------------------
+
+[[weekly]]
+name = "groceries-rewe"
+counterparty = "rewe"
+min_per_week = 1
+max_per_week = 3
+weekday_weights = [1, 1, 1, 1, 2, 3, 0]
+amount_mean = 28.0
+amount_stddev = 15.0
+amount_min = 8.0
+purpose = "REWE SAGT DANKE"
+
+[[weekly]]
+name = "groceries-lidl"
+counterparty = "lidl"
+min_per_week = 0
+max_per_week = 2
+weekday_weights = [1, 1, 1, 1, 2, 3, 0]
+amount_mean = 12.0
+amount_stddev = 5.0
+amount_min = 1.0
+purpose = "LIDL SAGT DANKE"
+
+[[weekly]]
+name = "groceries-edeka"
+counterparty = "edeka"
+min_per_week = 0
+max_per_week = 1
+expected_per_week = 0.3
+weekday_weights = [1, 1, 1, 1, 1, 2, 0]
+amount_mean = 18.0
+amount_stddev = 9.0
+amount_min = 2.5
+purpose = "EDEKA Kartenzahlung"
+
+# --- Drugstore / household / toiletries ---------------------------------------
+
+[[weekly]]
+name = "drugstore-dm"
+counterparty = "dm"
+min_per_week = 0
+max_per_week = 1
+expected_per_week = 0.4
+weekday_weights = [1, 1, 1, 1, 2, 2, 0]
+amount_mean = 16.0
+amount_stddev = 9.0
+amount_min = 1.5
+amount_max = 70.0
+purpose = "dm-drogerie markt Kartenzahlung"
+
+[[weekly]]
+name = "drugstore-rossmann"
+counterparty = "rossmann"
+min_per_week = 0
+max_per_week = 1
+expected_per_week = 0.25
+weekday_weights = [1, 1, 1, 1, 2, 2, 0]
+amount_mean = 13.0
+amount_stddev = 7.0
+amount_min = 1.0
+amount_max = 60.0
+purpose = "ROSSMANN SAGT DANKE"
+
+[[weekly]]
+name = "pharmacy"
+name_patterns = ["{{last_name}}-Apotheke", "Apotheke am {{last_name}}platz"]
+pool_size = 2
+min_per_week = 0
+max_per_week = 1
+expected_per_week = 0.15
+weekday_weights = [1, 1, 1, 1, 1, 1, 0]
+amount_mean = 11.0
+amount_stddev = 6.0
+amount_min = 2.0
+amount_max = 45.0
+purpose = "Kartenzahlung"
+
+# TODO: Add more
