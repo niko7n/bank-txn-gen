@@ -7,8 +7,9 @@ from pathlib import Path
 
 from faker import Faker
 
+from ..counterparty import Counterparty, generate_counterparty
 from ..models import Transaction
-from ..persona import Counterparty, Persona, make_iban
+from ..persona import Persona
 from .base import Source, outflow
 
 
@@ -74,10 +75,7 @@ def counterparty_pool(
         return [persona[rule.counterparty]]
 
     patterns = rule.name_patterns or ["{{company}}"]
-    return [
-        Counterparty(name=fake.parse(rng.choice(patterns)), iban=make_iban(rng))
-        for _ in range(rule.pool_size)
-    ]
+    return [generate_counterparty(patterns, fake, rng) for _ in range(rule.pool_size)]
 
 
 def probability(rule: WeeklyRule, day: date, done: int) -> float:

@@ -1,3 +1,9 @@
+[landlord]
+name_patterns = ["Hausverwaltung {{last_name}} GmbH"]
+
+[employer]
+name_patterns = ["{{company}} GmbH"]
+
 [rewe]
 name = "REWE Markt GmbH"
 
@@ -6,10 +12,10 @@ name = "EDEKA"
 #category = "groceries"
 
 [lidl]
-name = "Lidl Dienstleistung GmbH & Co. KG"
+name = "Lidl"
 
 [dm]
-name = "dm-drogerie markt"
+name = "dm-drogerie"
 
 [streaming]
 name = "Netflix International B.V."
@@ -19,10 +25,10 @@ name = "Techniker Krankenkasse"
 iban = "DE18200100200030936201"
 
 [pension-insurance]
-name = "Stuttgarter Lebensversicherung a.G."
+name_patterns = ["{{last_name}} Lebensversicherung a.G."]
 
 [rossmann]
-name = "Dirk Rossmann GmbH"
+name = "ROSSMANN"
 
 [lieferando]
 name = "Lieferando.de"

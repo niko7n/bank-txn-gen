@@ -3,8 +3,9 @@ from collections.abc import Callable
 from datetime import date
 from decimal import Decimal
 
+from ..counterparty import Counterparty
 from ..models import Transaction
-from ..persona import Counterparty, Persona
+from ..persona import Persona
 
 Source = Callable[[date, random.Random], list[Transaction]]
 

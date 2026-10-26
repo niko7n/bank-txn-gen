@@ -56,7 +56,7 @@ def make_income_employment(persona: Persona) -> Source:
                 day,
                 persona["employer"],
                 persona,
-                "3444.15",
+                "2444.15",
                 f"Gehalt {month_label(day)} {day.year}",
             )
         ]
