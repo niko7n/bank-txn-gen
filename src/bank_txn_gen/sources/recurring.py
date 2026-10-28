@@ -39,12 +39,46 @@ def make_insurance(persona: Persona) -> Source:
                 day,
                 persona,
                 persona["pension-insurance"],
-                "452.85",
+                "100",
                 f"{rng.randrange(5**5):05d}",
             ),
         ]
 
     return insurance
+
+
+def make_savings(persona: Persona) -> Source:
+    def savings(day: date, rng: random.Random) -> list[Transaction]:
+        if day.day != 1:
+            return []
+        return [
+            outflow(
+                day,
+                persona,
+                persona["savings"],
+                "200",
+                f"Sparrate {month_label(day)}",
+            ),
+        ]
+
+    return savings
+
+
+def make_fitness(persona: Persona) -> Source:
+    def fitness(day: date, rng: random.Random) -> list[Transaction]:
+        if day.day != 1:
+            return []
+        return [
+            outflow(
+                day,
+                persona,
+                persona["fitness-gym"],
+                "30",
+                f"Mitgliedsbeitrag {month_label(day)}",
+            ),
+        ]
+
+    return fitness
 
 
 def make_income_employment(persona: Persona) -> Source:

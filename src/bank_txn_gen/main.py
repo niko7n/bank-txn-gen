@@ -12,6 +12,8 @@ from .sources import (
     make_income_employment,
     make_insurance,
     make_rent,
+    make_fitness,
+    make_savings,
     make_semi_regular,
 )
 
@@ -61,6 +63,8 @@ def build_sources(persona: Persona, seed: int) -> list[Source]:
         make_rent(persona),
         make_insurance(persona),
         make_income_employment(persona),
+        make_fitness(persona),
+        make_savings(persona),
         *make_semi_regular(persona, seed),
     ]
 

@@ -73,7 +73,7 @@ name = "drugstore-dm"
 counterparty = "dm"
 min_per_week = 0
 max_per_week = 1
-expected_per_week = 0.2
+expected_per_week = 0.3
 weekday_weights = [1, 1, 1, 1, 2, 2, 0]
 amount_mean = 16.0
 amount_stddev = 9.0
@@ -108,4 +108,97 @@ amount_min = 5.0
 amount_max = 50.0
 purpose = "Kartenzahlung"
 
-# TODO: Add more
+# --- Bakeries (Bäckerei) -----------------------------------------------------
+
+[[weekly]]
+name = "bakery"
+name_patterns = ["Bäckerei {{last_name}}", "Kaffee & Bäckerei {{company}}", "Bäckerei & Konditorei {{last_name}}"]
+pool_size = 4
+min_per_week = 1
+max_per_week = 5
+expected_per_week = 2.5
+weekday_weights = [2, 2, 2, 2, 2, 3, 1]
+amount_mean = 5.50
+amount_stddev = 2.50
+amount_min = 1.50
+amount_max = 10.00
+purpose = "Vielen Dank für Ihren Einkauf"
+
+# --- Restaurants & Cafes -----------------------------------------------------
+
+[[weekly]]
+name = "restaurants-dining"
+name_patterns = ["Restaurant {{last_name}}", "Café {{company}}", "Trattoria {{last_name}}", "Bistro {{city_name}}"]
+pool_size = 6
+min_per_week = 0
+max_per_week = 2
+expected_per_week = 1.2
+weekday_weights = [0, 1, 1, 1, 3, 5, 4]
+amount_mean = 25.00
+amount_stddev = 12.00
+amount_min = 8.00
+amount_max = 70.00
+purpose = "Zahl.System VISA Debit"
+
+# --- Bars & Nightlife --------------------------------------------------------
+
+[[weekly]]
+name = "bars-nightlife"
+name_patterns = ["Bar {{last_name}}", "Pub {{company}}", "Kneipe {{last_name}}"]
+pool_size = 4
+min_per_week = 0
+max_per_week = 1
+expected_per_week = 0.5
+weekday_weights = [0, 0, 0, 1, 3, 4, 1]
+amount_mean = 22.00
+amount_stddev = 10.00
+amount_min = 6.00
+amount_max = 55.00
+purpose = "Kartenzahlung"
+
+# --- Train Drives & Public Transport (DB / Regional) -------------------------
+
+[[weekly]]
+name = "train-travel"
+counterparty = "db"
+min_per_week = 0
+max_per_week = 1
+expected_per_week = 0.5
+weekday_weights = [1, 1, 1, 1, 2, 3, 2]
+amount_mean = 34.00
+amount_stddev = 18.00
+amount_min = 12.00
+amount_max = 89.00
+purpose = "DB Vertrieb GmbH"
+
+# --- Cinema (Kino) -----------------------------------------------------------
+
+[[weekly]]
+name = "cinema"
+name_patterns = ["Cineplex {{city_name}}", "Kino {{last_name}}", "CinemaxX {{city_name}}"]
+pool_size = 2
+min_per_week = 0
+max_per_week = 1
+expected_per_week = 0.3
+weekday_weights = [0, 0, 1, 1, 2, 3, 2]
+amount_mean = 16.00
+amount_stddev = 4.00
+amount_min = 10.00
+amount_max = 30.00
+purpose = "Kartenzahlung"
+
+# --- Holidays & Travel (Hotels / Bookings) -----------------------------------
+
+[[weekly]]
+name = "holidays-travel"
+name_patterns = ["Booking.com", "Airbnb", "Hotel {{last_name}}"]
+pool_size = 4
+min_per_week = 0
+max_per_week = 1
+expected_per_week = 0.05
+weekday_weights = [1, 1, 1, 1, 1, 1, 1]
+amount_mean = 220.00
+amount_stddev = 120.00
+amount_min = 50.00
+amount_max = 650.00
+purpose = "Online-Zahlung"

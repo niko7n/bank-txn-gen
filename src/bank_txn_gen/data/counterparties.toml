@@ -27,6 +27,9 @@ iban = "DE18200100200030936201"
 [pension-insurance]
 name_patterns = ["{{last_name}} Lebensversicherung a.G."]
 
+[savings]
+name = "Sparkonto"
+
 [rossmann]
 name = "ROSSMANN"
 
@@ -41,6 +44,12 @@ name = "Aral AG"
 
 [strom]
 name = "Vattenfall Europe Sales GmbH"
+
+[db]
+name = "DB Vertrieb GmbH"
+
+[fitness-gym]
+name = "Fitness GmbH"
 
 # Optional Fields:
 # category = "utilities"
