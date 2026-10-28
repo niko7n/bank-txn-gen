@@ -9,11 +9,7 @@ from .persona import Persona, make_persona
 from .scheduler import loop_days
 from .sources import (
     Source,
-    make_income_employment,
-    make_insurance,
-    make_rent,
-    make_fitness,
-    make_savings,
+    make_recurring,
     make_semi_regular,
 )
 
@@ -60,11 +56,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 def build_sources(persona: Persona, seed: int) -> list[Source]:
     return [
-        make_rent(persona),
-        make_insurance(persona),
-        make_income_employment(persona),
-        make_fitness(persona),
-        make_savings(persona),
+        *make_recurring(persona),
         *make_semi_regular(persona, seed),
     ]
 
@@ -76,7 +68,7 @@ def generate(year: int, seed: int) -> list[Transaction]:
     return loop_days(date(year, 1, 1), date(year, 12, 31), sources, rng)
 
 
-def main() -> None:
+def main() -> int:
     args = build_parser().parse_args()
 
     out = args.out or Path(f"out/statement_{args.year}.csv")

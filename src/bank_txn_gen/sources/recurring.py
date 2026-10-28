@@ -1,98 +1,76 @@
 import random
+from collections.abc import Callable
 from datetime import date
 
 from ..models import Transaction
 from ..persona import Persona
 from .base import Source, inflow, month_label, outflow
 
+Purpose = Callable[[date, random.Random], str]
 
-def make_rent(persona: Persona) -> Source:
-    def rent(day: date, rng: random.Random) -> list[Transaction]:
-        if day.day != 28:
+
+def make_monthly(
+    persona: Persona,
+    key: str,
+    day_of_month: int,
+    amount: str,
+    purpose: Purpose,
+    *,
+    incoming: bool = False,
+) -> Source:
+    book = inflow if incoming else outflow
+
+    def monthly(day: date, rng: random.Random) -> list[Transaction]:
+        if day.day != day_of_month:
             return []
-        return [
-            outflow(
-                day,
-                persona,
-                persona["landlord"],
-                "850.00",
-                f"Miete {month_label(day)} {day.year}",
-            )
-        ]
+        return [book(day, persona, persona[key], amount, purpose(day, rng))]
 
-    return rent
+    return monthly
 
 
-def make_insurance(persona: Persona) -> Source:
-    def insurance(day: date, rng: random.Random) -> list[Transaction]:
-        if day.day != 1:
-            return []
-        return [
-            outflow(
-                day,
-                persona,
-                persona["health-insurance"],
-                "452.85",
-                f"TK-BuchNR {rng.randrange(12**12):012d} {month_label(day)}",
-            ),
-            outflow(
-                day,
-                persona,
-                persona["pension-insurance"],
-                "100",
-                f"{rng.randrange(5**5):05d}",
-            ),
-        ]
-
-    return insurance
-
-
-def make_savings(persona: Persona) -> Source:
-    def savings(day: date, rng: random.Random) -> list[Transaction]:
-        if day.day != 1:
-            return []
-        return [
-            outflow(
-                day,
-                persona,
-                persona["savings"],
-                "200",
-                f"Sparrate {month_label(day)}",
-            ),
-        ]
-
-    return savings
-
-
-def make_fitness(persona: Persona) -> Source:
-    def fitness(day: date, rng: random.Random) -> list[Transaction]:
-        if day.day != 1:
-            return []
-        return [
-            outflow(
-                day,
-                persona,
-                persona["fitness-gym"],
-                "30",
-                f"Mitgliedsbeitrag {month_label(day)}",
-            ),
-        ]
-
-    return fitness
-
-
-def make_income_employment(persona: Persona) -> Source:
-    def employment(day: date, rng: random.Random) -> list[Transaction]:
-        if day.day != 15:
-            return []
-        return [
-            inflow(
-                day,
-                persona["employer"],
-                persona,
-                "2444.15",
-                f"Gehalt {month_label(day)} {day.year}",
-            )
-        ]
-
-    return employment
+def make_recurring(persona: Persona) -> list[Source]:
+    return [
+        make_monthly(
+            persona,
+            "landlord",
+            28,
+            "850.00",
+            lambda d, _: f"Miete {month_label(d)} {d.year}",
+        ),
+        make_monthly(
+            persona,
+            "health-insurance",
+            1,
+            "452.85",
+            lambda d, rng: f"TK-BuchNR {rng.randrange(12**12):012d} {month_label(d)}",
+        ),
+        make_monthly(
+            persona,
+            "pension-insurance",
+            1,
+            "100",
+            lambda _, rng: f"{rng.randrange(5**5):05d}",
+        ),
+        make_monthly(
+            persona,
+            "employer",
+            15,
+            "2444.15",
+            lambda d, _: f"Gehalt {month_label(d)} {d.year}",
+            incoming=True,
+        ),
+        make_monthly(
+            persona,
+            "fitness-gym",
+            1,
+            "30",
+            lambda d, _: f"Mitgliedsbeitrag {month_label(d)}",
+        ),
+        make_monthly(
+            persona,
+            "savings",
+            1,
+            "200",
+            lambda d, _: f"Sparrate {month_label(d)}",
+        ),
+    ]

@@ -29,46 +29,40 @@ def month_label(day: date) -> str:
     return f"{MONTH_DE[day.month - 1]}"
 
 
-# TODO: Purpose could go into the toml
-def outflow(
+def _booking(
     day: date,
     persona: Persona,
     cp: Counterparty,
     amount: str,
     purpose: str,
+    *,
+    incoming: bool,
     **extra,
 ) -> Transaction:
+    value = abs(Decimal(amount))
+    payer, payee = (cp.name, persona.name) if incoming else (persona.name, cp.name)
+
     return Transaction(
         booking_date=day,
         value_date=day,
         state="Gebucht",
-        payer=persona.name,
-        payee=cp.name,
+        payer=payer,
+        payee=payee,
         iban=cp.iban,
-        amount=-abs(Decimal(amount)),
+        amount=value if incoming else -value,
         purpose=purpose,
-        type="Ausgang",
+        type="Eingang" if incoming else "Ausgang",
         **extra,
     )
+
+
+def outflow(
+    day: date, persona: Persona, cp: Counterparty, amount: str, purpose: str, **extra
+) -> Transaction:
+    return _booking(day, persona, cp, amount, purpose, incoming=False, **extra)
 
 
 def inflow(
-    day: date,
-    cp: Counterparty,
-    persona: Persona,
-    amount: str,
-    purpose: str,
-    **extra,
+    day: date, persona: Persona, cp: Counterparty, amount: str, purpose: str, **extra
 ) -> Transaction:
-    return Transaction(
-        booking_date=day,
-        value_date=day,
-        state="Gebucht",
-        payer=cp.name,
-        payee=persona.name,
-        iban=cp.iban,
-        amount=abs(Decimal(amount)),
-        purpose=purpose,
-        type="Eingang",
-        **extra,
-    )
+    return _booking(day, persona, cp, amount, purpose, incoming=True, **extra)
